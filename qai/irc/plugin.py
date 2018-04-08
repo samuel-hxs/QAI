@@ -18,8 +18,6 @@ class Plugin:
 
     def __init__(self, bot):
         self.bot = bot
-        # self.bot.include('irc3.plugins.logger')
-        # self.bot.include('irc3.plugins.command')
 
     @irc3.event(irc3.rfc.JOIN)
     def say_hi(self, mask, channel, **kw):
