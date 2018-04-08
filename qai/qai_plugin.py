@@ -106,6 +106,7 @@ class Plugin(object):
     def move_user(self, channel, nick):
         self.bot.privmsg('OperServ', 'svsjoin %s %s' % (nick, channel))
 
+    # TODO: could change for issue #58
     @irc3.event(irc3.rfc.PRIVMSG)
     @asyncio.coroutine
     def on_priv_msg(self, *args, **kwargs):
@@ -442,12 +443,12 @@ class Plugin(object):
                                          headers={'Client-ID': self.bot.config['twitch_client_id']})
         data = yield from req.read()
         try:
-            livestreams = []
+            live_streams = []
             for stream in json.loads(data.decode())['streams']:
                 t = stream["channel"].get("updated_at", "T0")
                 date = t.split("T")
                 hour = date[1].replace("Z", "")
-                livestreams.append({
+                live_streams.append({
                     'channel': stream["channel"]["display_name"],
                     'text': "%s - %s - %s since %s (%i viewers) "
                             % (stream["channel"]["display_name"],
@@ -456,7 +457,7 @@ class Plugin(object):
                                hour,
                                stream["viewers"])
                 })
-            return livestreams
+            return live_streams
         except (KeyError, ValueError):
             return []
 
