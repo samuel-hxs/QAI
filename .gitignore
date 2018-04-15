@@ -6,3 +6,4 @@ fafbot.conf
 config.ini
 .idea
 venv
+*config.ini

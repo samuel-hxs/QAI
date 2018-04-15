@@ -1,20 +1,13 @@
 # -*- coding: utf-8 -*-
+import irc3
 from irc3 import rfc
 from irc3.plugins.command import command
-import irc3
 
 
 @irc3.plugin
 class Plugin:
     """A plugin is a class which take the IrcBot as argument
         """
-
-    requires = [
-        'irc3.plugins.core',
-        'irc3.plugins.userlist',
-        'irc3.plugins.command',
-        'irc3.plugins.human',
-    ]
 
     def __init__(self, bot):
         self.bot = bot
@@ -35,6 +28,24 @@ class Plugin:
         """
         yield ' '.join(args['<message>'])
 
+    @command(permission='view', public=True, show_in_help_list=False, name='pings')
+    def ping(self, mask, target, args):
+        """Echo
+
+            %%echo <message>...
+        """
+        print(' '.join(args['<words>']))
+        self.privmsg(mask.nick, ' '.join(args['<words>']))
+
     @irc3.event(rfc.ERR_NOSUCHSERVER)
-    def myevent(bot, srv=None, me=None, server=None, data=None):
+    def myevent(self, srv=None, me=None, server=None, data=None):
         pass
+
+    @staticmethod
+    def start():
+        config = irc3.utils.parse_config('bot', 'irc.config.ini')
+        bot = irc3.IrcBot.from_config(config)
+        # bot.config.update(config)
+        # irc = Plugin(bot)
+
+        bot.run(forever=True)
