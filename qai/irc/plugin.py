@@ -7,21 +7,23 @@ from irc3.plugins.command import command
 
 @irc3.plugin
 class Plugin:
-    """A plugin is a class which take the IrcBot as argument
+    """A plugin is a class which takes QAI as argument
     """
 
     def __init__(self, bot):
         self.bot = bot
 
     @irc3.event(irc3.rfc.CONNECTED)
-    def on_connect(self, mask, channel, **kw):
-        """Authenticate nick
+    def on_connect(self, *args, **kwargs):
+        """Authenticate to the server
         """
         pass
         # self.bot.privmsg('nickserv', 'identify %s' % self.bot.config['nickserv_password'])
 
     @irc3.event(irc3.rfc.JOIN)
     def on_join(self, channel, mask):
+        """A user is joining or has joined
+        """
         pass
 
     @irc3.event(irc3.rfc.PRIVMSG)
@@ -29,16 +31,7 @@ class Plugin:
     def on_private_message(self, *args, **kwargs):
         pass
 
-    @command(permission='admin', public=False)
-    @asyncio.coroutine
-    def command_hidden(self, mask, target, args):
-        """Actually shows hidden commands
-
-            %%hidden
-        """
-        pass
-
-    @command(permission='admin')
+    @command(permission='admin', name='taunt')
     @asyncio.coroutine
     def command_taunt(self, mask, target, args):
         """Send a taunt
@@ -48,7 +41,7 @@ class Plugin:
         """
         pass
 
-    @command(permission='admin')
+    @command(permission='admin', name='explode')
     @asyncio.coroutine
     def command_explode(self, mask, target, args):
         """Explode
@@ -57,7 +50,7 @@ class Plugin:
         """
         pass
 
-    @command(permission='admin')
+    @command(permission='admin', name='someone')
     @asyncio.coroutine
     def command_hug(self, mask, target, args):
         """Hug someone
@@ -67,7 +60,7 @@ class Plugin:
         """
         pass
 
-    @command(permission='admin')
+    @command(permission='admin', name='flip')
     @asyncio.coroutine
     def command_flip(self, mask, target, args):
         """Flip table
@@ -76,7 +69,7 @@ class Plugin:
         """
         pass
 
-    @command(permission='admin')
+    @command(permission='admin', name='slap')
     @asyncio.coroutine
     def command_slap(self, mask, target, args):
         """Slap this guy
@@ -85,7 +78,16 @@ class Plugin:
         """
         pass
 
-    @command(permission='admin', show_in_help_list=False)
+    @command(permission='admin', public=False, name='hidden')
+    @asyncio.coroutine
+    def command_hidden(self, mask, target, args):
+        """Actually shows hidden commands
+
+            %%hidden
+        """
+        pass
+
+    @command(permission='admin', show_in_help_list=False, name='join')
     @asyncio.coroutine
     def command_join(self, mask, target, args):
         """Overtake the given channel
@@ -94,7 +96,7 @@ class Plugin:
         """
         pass
 
-    @command(permission='admin', show_in_help_list=False)
+    @command(permission='admin', show_in_help_list=False, name='leave')
     @asyncio.coroutine
     def command_leave(self, mask, target, args):
         """Leave the given channel
@@ -104,7 +106,7 @@ class Plugin:
         """
         pass
 
-    @command(permission='admin', public=False, show_in_help_list=False)
+    @command(permission='admin', public=False, show_in_help_list=False, name='puppet')
     @asyncio.coroutine
     def command_puppet(self, mask, target, args):
         """Puppet
@@ -113,7 +115,7 @@ class Plugin:
         """
         pass
 
-    @command(permission='admin', public=False, show_in_help_list=False)
+    @command(permission='admin', public=False, show_in_help_list=False, name='mode')
     @asyncio.coroutine
     def command_mode(self, mask, target, args):
         """mode
@@ -122,7 +124,7 @@ class Plugin:
         """
         pass
 
-    @command(permission='admin', public=False, show_in_help_list=False)
+    @command(permission='admin', public=False, show_in_help_list=False, name='reload')
     @asyncio.coroutine
     def command_reload(self, mask, target, args):
         """Reboot the mainframe
@@ -131,7 +133,7 @@ class Plugin:
         """
         pass
 
-    @command(permission='admin', public=False, show_in_help_list=False)
+    @command(permission='admin', public=False, show_in_help_list=False, name='groupmanage')
     @asyncio.coroutine
     def command_group_manage(self, mask, target, args):
         """Allows admins to manage groups
@@ -144,7 +146,7 @@ class Plugin:
         """
         pass
 
-    @command(permission='admin', public=False, show_in_help_list=False)
+    @command(permission='admin', public=False, show_in_help_list=False, name='blacklist')
     @asyncio.coroutine
     def command_blacklist(self, mask, target, args):
         """Blacklist given channel/user from !casts, !streams
@@ -155,7 +157,7 @@ class Plugin:
         """
         pass
 
-    @command(permission='admin', public=False, show_in_help_list=False)
+    @command(permission='admin', public=False, show_in_help_list=False, name='badwords')
     @asyncio.coroutine
     def command_bad_words(self, mask, target, args):
         """Adds/removes a given keyword from the checklist
@@ -166,7 +168,7 @@ class Plugin:
         """
         pass
 
-    @command(permission='admin', public=False, show_in_help_list=False)
+    @command(permission='admin', public=False, show_in_help_list=False, name='reactionwords')
     @asyncio.coroutine
     def command_reaction_words_admin(self, mask, target, args):
         """Adds/removes a given keyword from the checklist.
@@ -178,7 +180,7 @@ class Plugin:
         """
         pass
 
-    @command(permission='admin', public=False, show_in_help_list=False)
+    @command(permission='admin', public=False, show_in_help_list=False, name='repeat')
     @asyncio.coroutine
     def command_repeat(self, mask, target, args):
         """Makes QAI repeat WORDS in <channel> each <seconds>. Use <ID> to remove them again.
@@ -189,7 +191,7 @@ class Plugin:
         """
         pass
 
-    @command
+    @command(name='gullible')
     def command_gullible(self, mask, target, args):
         """Display additional commands
 
@@ -197,7 +199,7 @@ class Plugin:
         """
         pass
 
-    @command
+    @command(name='link')
     def command_link(self, mask, target, args):
         """Link to a website
 
@@ -207,7 +209,7 @@ class Plugin:
         """
         pass
 
-    @command
+    @command(name='wiki')
     def command_wiki(self, mask, target, args):
         """Link to a wiki page
 
@@ -217,7 +219,7 @@ class Plugin:
         """
         pass
 
-    @command
+    @command(name='streams')
     @asyncio.coroutine
     def command_streams(self, mask, target, args):
         """List current live streams
@@ -226,7 +228,7 @@ class Plugin:
         """
         pass
 
-    @command
+    @command(name='groupping')
     @asyncio.coroutine
     def command_group_ping(self, mask, target, args):
         """Pings people in this group
@@ -235,7 +237,7 @@ class Plugin:
         """
         pass
 
-    @command
+    @command(name='reactions')
     @asyncio.coroutine
     def command_reaction_words(self, mask, target, args):
         """Prints the list of checked reaction words
@@ -244,7 +246,7 @@ class Plugin:
         """
         pass
 
-    @command
+    @command(name='tournaments')
     @asyncio.coroutine
     def command_tournaments(self, mask, target, args):
         """Check tourneys
@@ -253,7 +255,7 @@ class Plugin:
         """
         pass
 
-    @command
+    @command(name='google')
     def command_google(self, mask, target, args):
         """google
 
@@ -261,7 +263,7 @@ class Plugin:
         """
         pass
 
-    @command
+    @command(name='name')
     def command_name(self, mask, target, args):
         """name
 
@@ -271,7 +273,8 @@ class Plugin:
         """
         pass
 
-    @command(public=False)
+    # TODO: Change to only message and do not send if @person is online
+    @command(public=False, name='offlinemessage')
     @asyncio.coroutine
     def command_offline_message(self, mask, target, args):
         """Store an offline message, it is delivered once the person logs on
@@ -280,7 +283,7 @@ class Plugin:
         """
         pass
 
-    @command(public=False)
+    @command(public=False, name='group')
     @asyncio.coroutine
     def command_group(self, mask, target, args):
         """Allows joining and leaving ping groups
@@ -291,7 +294,8 @@ class Plugin:
         """
         pass
 
-    @command(show_in_help_list=False)
+    # TODO: Check meaning and check against @command_tournaments
+    @command(show_in_help_list=False, name='tourneys')
     @asyncio.coroutine
     def command_tourneys(self, mask, target, args):
         """Check tourneys
@@ -300,7 +304,7 @@ class Plugin:
         """
         pass
 
-    @command(permission='chatlist', show_in_help_list=False)
+    @command(permission='chatlist', show_in_help_list=False, name='move')
     @asyncio.coroutine
     def command_move(self, mask, target, args):
         """Move nick into channel
@@ -309,7 +313,7 @@ class Plugin:
         """
         pass
 
-    @command(permission='chatlist', show_in_help_list=False)
+    @command(permission='chatlist', show_in_help_list=False, name='chatlist')
     @asyncio.coroutine
     def command_chat_list(self, mask, target, args):
         """Chat lists
@@ -323,6 +327,8 @@ class Plugin:
 
     @staticmethod
     def start():
+        """Static start function
+        """
         config = irc3.utils.parse_config('bot', 'irc.config.ini')
         bot = irc3.IrcBot.from_config(config)
 
