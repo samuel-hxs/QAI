@@ -5,5 +5,6 @@ fafbot.conf
 .coverage
 config.ini
 .idea
-venv
+venv/
+venv*/
 *config.ini
